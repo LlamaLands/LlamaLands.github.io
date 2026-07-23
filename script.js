@@ -245,6 +245,100 @@
   }
 
   /* ------------------------------------------------------------------
+     8. GSAP ScrollReveal — word-by-word blur + fade on scroll
+        Splits text into individual words, then uses GSAP ScrollTrigger
+        to animate each word's opacity, blur, and the container's
+        rotation as the user scrolls. Same visual effect as the React
+        Bits ScrollReveal component, built in vanilla JS.
+  ------------------------------------------------------------------ */
+  function initScrollReveal() {
+    if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    var baseOpacity = 0.1;
+    var baseRotation = 3;
+    var blurStrength = 4;
+
+    document.querySelectorAll(".scroll-reveal").forEach(function (el) {
+      // Split text nodes into wrapped <span class="sr-word"> elements
+      var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+      var textNodes = [];
+      while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+      textNodes.forEach(function (node) {
+        var parts = node.textContent.split(/(\s+)/);
+        var frag = document.createDocumentFragment();
+        parts.forEach(function (part) {
+          if (part.match(/^\s+$/)) {
+            frag.appendChild(document.createTextNode(part));
+          } else if (part.length > 0) {
+            var span = document.createElement("span");
+            span.className = "sr-word";
+            span.textContent = part;
+            frag.appendChild(span);
+          }
+        });
+        node.parentNode.replaceChild(frag, node);
+      });
+
+      var words = el.querySelectorAll(".sr-word");
+      if (!words.length) return;
+
+      // Container rotation
+      gsap.fromTo(
+        el,
+        { transformOrigin: "0% 50%", rotate: baseRotation },
+        {
+          ease: "none",
+          rotate: 0,
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom",
+            end: "bottom bottom",
+            scrub: true,
+          },
+        }
+      );
+
+      // Word opacity
+      gsap.fromTo(
+        words,
+        { opacity: baseOpacity },
+        {
+          ease: "none",
+          opacity: 1,
+          stagger: 0.05,
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom-=20%",
+            end: "bottom bottom",
+            scrub: true,
+          },
+        }
+      );
+
+      // Word blur
+      if (!prefersReducedMotion) {
+        gsap.fromTo(
+          words,
+          { filter: "blur(" + blurStrength + "px)" },
+          {
+            ease: "none",
+            filter: "blur(0px)",
+            stagger: 0.05,
+            scrollTrigger: {
+              trigger: el,
+              start: "top bottom-=20%",
+              end: "bottom bottom",
+              scrub: true,
+            },
+          }
+        );
+      }
+    });
+  }
+
+  /* ------------------------------------------------------------------
      Boot
   ------------------------------------------------------------------ */
   buildCrosses();
@@ -254,5 +348,6 @@
   initMagneticButtons();
   runPreloader(function () {
     initReveals();
+    initScrollReveal();
   });
 })();
