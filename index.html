@@ -181,6 +181,69 @@
           </ul>
         </div>
       </article>
+
+      <article class="project reveal reveal-scale" data-delay="100">
+        <div class="project-meta">
+          <span class="project-number mono">03</span>
+          <div class="tags">
+            <span class="tag mono">Python</span>
+            <span class="tag mono">ArcPy</span>
+            <span class="tag mono">GIS Automation</span>
+            <span class="tag mono">Enterprise GDB</span>
+          </div>
+        </div>
+        <div class="project-main">
+          <h3 class="project-title">Automated Address Assignment for Water Service Lines</h3>
+          <p class="project-lede scroll-reveal">
+            A geoprocessing tool that assigns street addresses and location IDs
+            to water service lines by reading the direction the pipe points —
+            replacing a manual, one-record-at-a-time data entry task.
+          </p>
+          <p class="project-story">
+            Elgin's water utility GIS has tens of thousands of service lines,
+            each needing the address and LOCID of the house it serves. That
+            attribution was entirely manual — click a line, find the house,
+            type two fields, move on. The obvious automation, nearest-neighbor
+            matching, fails on deep-setback lots where the margin between the
+            correct house and the neighbor shrinks to as little as 12.5 feet.
+          </p>
+
+          <div class="project-insight">
+            <h4 class="mono">The insight</h4>
+            <p>
+              Service lines run perpendicular from the main, through the buffalo
+              box, aimed at the house they serve. The geometry already encodes
+              the answer — nearest-neighbor throws it away by measuring magnitude
+              and discarding direction. Instead of asking which house is closest,
+              the tool asks which house the line <em>points at</em>.
+            </p>
+          </div>
+
+          <div class="project-method">
+            <h4 class="mono">How it works</h4>
+            <ul class="highlights">
+              <li class="reveal" data-delay="100">Extracts both endpoints and identifies the house end versus the street end</li>
+              <li class="reveal" data-delay="175">Computes the bearing from street to house and casts a ray along it</li>
+              <li class="reveal" data-delay="250">The footprint the ray intersects is the match — setback depth stops mattering</li>
+              <li class="reveal" data-delay="325">Falls back to distance with an ambiguity margin, flagging rather than guessing</li>
+            </ul>
+          </div>
+
+          <div class="project-method">
+            <h4 class="mono">Designed to be distrusted</h4>
+            <ul class="highlights">
+              <li class="reveal" data-delay="100">Preview mode on by default — full analysis, zero edits</li>
+              <li class="reveal" data-delay="175">Ambiguous records flagged for human review, never guessed at</li>
+              <li class="reveal" data-delay="250">Every decision logged to CSV with method, distances, and margin</li>
+              <li class="reveal" data-delay="325">Flagged records auto-selected in the map as the operator's to-do list</li>
+            </ul>
+          </div>
+
+          <p class="project-stack mono">
+            Python Toolbox (.pyt) · ArcGIS Pro · ArcPy · Enterprise SQL Server Geodatabase
+          </p>
+        </div>
+      </article>
     </div>
   </div>
 </section>
