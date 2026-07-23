@@ -74,6 +74,12 @@ body {
 .is-visible .underline-draw::after,
 .underline-draw.is-visible::after { transform: scaleX(1); }
 
+/* GSAP scroll-reveal: word-by-word blur + fade */
+.scroll-reveal .sr-word {
+  display: inline-block;
+  will-change: opacity, filter;
+}
+
 /* Thin scroll-progress bar along the top of the page */
 .progress {
   position: fixed; top: 0; left: 0; z-index: 100;
