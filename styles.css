@@ -313,6 +313,29 @@ body {
 .map-link:hover { background: var(--paper-tint); color: #256042; }
 .map-link:focus-visible { outline: 2px solid var(--green); outline-offset: -2px; }
 
+/* ---------------- Project detail sections (insight, method, stack) */
+.project-insight {
+  margin-top: 28px;
+  padding: 24px;
+  background: var(--paper-tint);
+  border-left: 3px solid var(--green);
+  border-radius: 0 10px 10px 0;
+}
+.project-insight h4,
+.project-method h4 {
+  font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 10px;
+}
+.project-insight p { font-size: 0.97rem; color: var(--ink); line-height: 1.7; }
+.project-insight em { font-style: italic; color: var(--green); }
+.project-method { margin-top: 24px; }
+.project-stack {
+  margin-top: 24px; padding-top: 16px;
+  border-top: 1px dashed var(--line);
+  font-size: 0.78rem; letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
 /* ===========================================================================
    Skills
    =========================================================================== */
